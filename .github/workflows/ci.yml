@@ -1,3 +1,13 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
 jobs:
   # JOB 1: Test & Lint Python App
   test:
@@ -36,6 +46,39 @@ jobs:
 
       - name: Run Tests
         run: make test
+
+  # JOB 2: Release Parquet Files
+  release:
+    needs: [test] # Depends only on the test job
+    runs-on: ubuntu-latest
+    if: github.ref_type == 'tag' # Only run if a tag is pushed
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6 # Need to checkout code again for the release job context
+
+      - name: Set up Python and Install Dependencies
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - name: Install Dependencies
+        run: make sync
+
+      - name: Generate Parquet Files
+        run: make debug # This will run convert.py and create the .parquet files
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          # Specify the files to upload as release assets
+          files: 'work/*.parquet' # This will upload all .parquet files in the work directory
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # JOB 2: Release Parquet Files
   release:
