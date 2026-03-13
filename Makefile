@@ -35,12 +35,10 @@ sync:
 download:
 	mkdir -p downloads
 	curl -L -o downloads/MTL_grouped.zip "https://zenodo.org/records/3756607/files/MTL_grouped.zip?download=1"
-	curl -L -o downloads/MTL_all.zip "https://zenodo.org/records/3756607/files/MTL_all.zip?download=1"
+	#curl -L -o downloads/MTL_all.zip "https://zenodo.org/records/3756607/files/MTL_all.zip?download=1"
 
 debug:
 	uv run python convert.py --type grouped --language de --keeptsv --force
 
 sample:
 	python sample.py
-
-

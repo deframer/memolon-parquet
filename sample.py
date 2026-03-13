@@ -1,6 +1,4 @@
 import pyarrow.parquet as pq
-import pyarrow as pa
-import os
 
 # Load the Parquet file
 file_path = "work/memolon-grouped-de-0.1.0.parquet"
@@ -17,10 +15,7 @@ try:
     index = lowercase_word_list.index(lowercase_word_to_find)
 
     # Fetch all data for that row using the found index
-    row_data = {
-        col_name: table.column(col_name)[index].as_py()
-        for col_name in table.column_names
-    }
+    row_data = {col_name: table.column(col_name)[index].as_py() for col_name in table.column_names}
     print(f"Found '{word_to_find}' (case-insensitive search):")
     for key, value in row_data.items():
         print(f"  {key}: {value}")
@@ -30,12 +25,7 @@ try:
         " The first three dimensions follow the VAD model (Valence, Arousal, Dominance)."
     )
 
-    print(
-        "Scale interpretation:"
-        " 1 = very low / absent,"
-        " 5 = neutral / medium,"
-        " 9 = very high / strong."
-    )
+    print("Scale interpretation: 1 = very low / absent, 5 = neutral / medium, 9 = very high / strong.")
 
     print(
         "Examples:"
@@ -49,10 +39,7 @@ try:
         " 1 = emotion not present, 9 = very strong emotion."
     )
 
-    print(
-        "Background on the VAD/PAD emotion model:"
-        " https://en.wikipedia.org/wiki/PAD_emotional_state_model"
-    )
+    print("Background on the VAD/PAD emotion model: https://en.wikipedia.org/wiki/PAD_emotional_state_model")
 
 except ValueError:
     print(f"The word '{word_to_find}' was not found in the dataset.")

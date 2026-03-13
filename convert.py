@@ -13,9 +13,7 @@ class Parser:
 
     @staticmethod
     def parse_args() -> argparse.Namespace:
-        parser = argparse.ArgumentParser(
-            description="Extract a TSV from a downloaded ZIP and convert to Parquet."
-        )
+        parser = argparse.ArgumentParser(description="Extract a TSV from a downloaded ZIP and convert to Parquet.")
         parser.add_argument(
             "--type",
             choices=["grouped", "all"],
@@ -52,9 +50,7 @@ class Unzipper:
 
     def list_tsvs(self) -> list[str]:
         if not self.zip_filepath.exists():
-            print(
-                f"Error: Could not find '{self.zip_filepath.name}' in '{self.zip_filepath.parent}'."
-            )
+            print(f"Error: Could not find '{self.zip_filepath.name}' in '{self.zip_filepath.parent}'.")
             print("Please run 'make download' first.")
             sys.exit(1)
 
@@ -62,16 +58,12 @@ class Unzipper:
             with zipfile.ZipFile(self.zip_filepath, "r") as zf:
                 return [name for name in zf.namelist() if name.endswith(".tsv")]
         except zipfile.BadZipFile:
-            print(
-                f"Error: '{self.zip_filepath}' is not a valid zip file or is corrupted."
-            )
+            print(f"Error: '{self.zip_filepath}' is not a valid zip file or is corrupted.")
             sys.exit(1)
 
     def extract(self, internal_filename: str, output_filepath: Path) -> None:
         if not self.zip_filepath.exists():
-            print(
-                f"Error: Could not find '{self.zip_filepath.name}' in '{self.zip_filepath.parent}'."
-            )
+            print(f"Error: Could not find '{self.zip_filepath.name}' in '{self.zip_filepath.parent}'.")
             print("Please run 'make download' first.")
             sys.exit(1)
 
@@ -79,9 +71,7 @@ class Unzipper:
         try:
             with zipfile.ZipFile(self.zip_filepath, "r") as zf:
                 if internal_filename not in zf.namelist():
-                    print(
-                        f"Error: '{internal_filename}' not found inside '{self.zip_filepath.name}'."
-                    )
+                    print(f"Error: '{internal_filename}' not found inside '{self.zip_filepath.name}'.")
                     sys.exit(1)
 
                 print(f"Extracting '{internal_filename}' to '{output_filepath}'...")
@@ -91,9 +81,7 @@ class Unzipper:
                 ):
                     target.write(source.read())
         except zipfile.BadZipFile:
-            print(
-                f"Error: '{self.zip_filepath}' is not a valid zip file or is corrupted."
-            )
+            print(f"Error: '{self.zip_filepath}' is not a valid zip file or is corrupted.")
             sys.exit(1)
 
 
@@ -162,9 +150,7 @@ def main():
 
         # Skip logic (checking for parquet output)
         if output_parquet.exists() and not args.force:
-            print(
-                f"Skipping: '{output_parquet}' already exists. Use --force to overwrite."
-            )
+            print(f"Skipping: '{output_parquet}' already exists. Use --force to overwrite.")
             continue
 
         # 1. Unzip the TSV file
