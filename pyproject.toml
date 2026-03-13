@@ -1,0 +1,13 @@
+[project]
+name = "memolon-parquet"
+version = "0.1.0"
+description = "MEmoLon Parquet"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pyarrow",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
