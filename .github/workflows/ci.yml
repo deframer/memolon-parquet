@@ -75,7 +75,7 @@ jobs:
         run: |
           VERSION_TAG=${{ github.ref_name }}
           VERSION=${VERSION_TAG#v}
-          uv run python convert.py --type grouped --language de --version $VERSION --force
+          uv run python convert.py --type grouped --language all --version $VERSION --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
