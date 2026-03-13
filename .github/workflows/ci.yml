@@ -72,7 +72,12 @@ jobs:
         run: make download
 
       - name: Generate Parquet Files
-        run: make debug # This will run convert.py and create the .parquet files
+        run: |
+          VERSION_TAG=${{ github.ref_name }}
+          VERSION=${VERSION_TAG#v}
+          uv run python convert.py --type grouped --language de --version $VERSION --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
