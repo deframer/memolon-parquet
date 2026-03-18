@@ -41,4 +41,4 @@ debug:
 	uv run python convert.py --type grouped --language de --keeptsv --force
 
 sample:
-	python sample.py
+	uv run python sample.py
