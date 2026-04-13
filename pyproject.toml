@@ -9,7 +9,7 @@ dependencies = [
     "pyarrow",
     "pyarrow-stubs>=20.0.0.20251215",
     "pytest",
-    "ruff>=0.15.6",
+    "ruff>=0.15.10",
 ]
 
 [build-system]
